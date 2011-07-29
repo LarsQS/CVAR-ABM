@@ -1,0 +1,8 @@
+To do:
+
+- finish writing background
+- write unittest for remaining HIVModel subroutines
+- figures for different assortative mixing parameters (e.g. 80, 70, 60)
+- write Monte Carlo script
+- profile all three classes -> improve speed
+- check spelling and grammar of documentation

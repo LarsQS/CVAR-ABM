@@ -1,0 +1,800 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Documentation &mdash; HIVABM v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="HIVABM v0.1 documentation" href="index.html" />
+    <link rel="prev" title="Background" href="background.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html"><img src="_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="background.html" title="Background"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Documentation</a><ul>
+<li><a class="reference internal" href="#inheritance-diagram">Inheritance Diagram</a></li>
+<li><a class="reference internal" href="#description">Description</a></li>
+<li><a class="reference internal" href="#reference">Reference</a><ul>
+<li><a class="reference internal" href="#populationclass">PopulationClass</a></li>
+<li><a class="reference internal" href="#socialnetworkclass">SocialNetworkClass</a></li>
+<li><a class="reference internal" href="#module-HIVABM_Evolution">Evolution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="background.html"
+                        title="previous chapter">Background</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/documentation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="documentation">
+<span id="id1"></span><h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-HIVABM_Evolution"></span><div class="section" id="inheritance-diagram">
+<h2>Inheritance Diagram<a class="headerlink" href="#inheritance-diagram" title="Permalink to this headline">¶</a></h2>
+<p class="graphviz">
+<img src="_images/inheritance-bbc78eef4e94b18cd07cf4e4e83860093b4438ff.png" alt="Inheritance diagram of HIVABM_Evolution" usemap="#inheritance004b3b0639" class="inheritance"/>
+<map id="inheritance004b3b0639" name="inheritance004b3b0639">
+<area shape="rect" id="node1" href="#HIVABM_Evolution.HIVModel" title="HIVABM_Evolution.HIVModel" alt="" coords="335,55,537,83"/>
+<area shape="rect" id="node2" href="#HIVABM_Population.PopulationClass" title="HIVABM_Population.PopulationClass" alt="" coords="7,55,257,83"/>
+</map>
+</p>
+</div>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>This module implements the <tt class="xref py py-class docutils literal"><span class="pre">SocialNetworkClass</span></tt> class which
+models the population and the associated social network in out HIV model.
+It contains the following classes:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#HIVABM_Population.PopulationClass" title="HIVABM_Population.PopulationClass"><tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt></a> &#8211; Class describing the population.</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="#HIVABM_Network.SocialNetworkClass" title="HIVABM_Network.SocialNetworkClass"><tt class="xref py py-class docutils literal"><span class="pre">SocialNetworkClass</span></tt></a> &#8211; Class modeling the social network.</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="#HIVABM_Evolution.HIVModel" title="HIVABM_Evolution.HIVModel"><tt class="xref py py-class docutils literal"><span class="pre">HIVModel</span></tt></a> &#8211; Class modeling the evolution of our poplulation.</li>
+</ul>
+</div>
+<div class="section" id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="populationclass">
+<h3>PopulationClass<a class="headerlink" href="#populationclass" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="HIVABM_Population.PopulationClass">
+<em class="property">class </em><tt class="descclassname">HIVABM_Population.</tt><tt class="descname">PopulationClass</tt><big>(</big><em>n=10000</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Population.html#PopulationClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Population.PopulationClass" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">This class constructs and represents the model population</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body"><dl class="first docutils">
+<dt>n <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of agents. Default: 10000</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Attributes :</th><td class="field-body"><dl class="first docutils">
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">PopulationSize</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Size of the population.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">propIDU</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Prevalence of intravenous drug users.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">numIDU</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of intravenous drug users.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">propNIDU</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Prevalence of non-intravenous drug users.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">numNIDU</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of non-intravenous drug users.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">propND</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Prevalence of not drug users.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">numND</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of not drug users.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">Agents</span></tt>: dict</dt>
+<dd><p class="first last">Dictionary of agents and their characteristics. The agents are
+the <a href="#id2"><span class="problematic" id="id3">`</span></a>keys&#8217; and a dicotionary of &#8216;characteristic:value&#8217;
+pair is the entry.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">IDU_agents</span></tt>: list</dt>
+<dd><p class="first last">IDU drug users</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">NIDU_agents</span></tt>: list</dt>
+<dd><p class="first last">NIDU drug users</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">ND_agents</span></tt>: list</dt>
+<dd><p class="first last">ND drug users</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">MSM_agents</span></tt>: list</dt>
+<dd><p class="first last">MSM agents</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">HIV_agents</span></tt>: list</dt>
+<dd><p class="first last">HIV+ users</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">AIDS_agents</span></tt>: list</dt>
+<dd><p class="first last">Users with AIDS</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Methods :</th><td class="field-body"><p class="first"><a class="reference internal" href="#HIVABM_Population.PopulationClass.get_agent_charactersitic" title="HIVABM_Population.PopulationClass.get_agent_charactersitic"><tt class="xref py py-meth docutils literal"><span class="pre">get_agent_charactersitic()</span></tt></a></p>
+<p><tt class="xref py py-meth docutils literal"><span class="pre">_set_population()</span></tt></p>
+<p><a class="reference internal" href="#HIVABM_Population.PopulationClass.get_agents" title="HIVABM_Population.PopulationClass.get_agents"><tt class="xref py py-meth docutils literal"><span class="pre">get_agents()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Population.PopulationClass.get_info_DrugUserType" title="HIVABM_Population.PopulationClass.get_info_DrugUserType"><tt class="xref py py-meth docutils literal"><span class="pre">get_info_DrugUserType()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Population.PopulationClass.get_info_HIV_IDU" title="HIVABM_Population.PopulationClass.get_info_HIV_IDU"><tt class="xref py py-meth docutils literal"><span class="pre">get_info_HIV_IDU()</span></tt></a></p>
+<p class="last"><a class="reference internal" href="#HIVABM_Population.PopulationClass.get_info_DrugSexType" title="HIVABM_Population.PopulationClass.get_info_DrugSexType"><tt class="xref py py-meth docutils literal"><span class="pre">get_info_DrugSexType()</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="HIVABM_Population.PopulationClass.get_agent_charactersitic">
+<tt class="descname">get_agent_charactersitic</tt><big>(</big><em>agent</em>, <em>property</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Population.html#PopulationClass.get_agent_charactersitic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Population.PopulationClass.get_agent_charactersitic" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">Determine an agents interal characteristics.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body"><p class="first">agent : int</p>
+<dl class="docutils">
+<dt>property: string</dt>
+<dd><p class="first">Allowed properties:</p>
+<p class="last"><cite>HIV</cite>, <cite>Sex Type</cite>, <cite>Drug Type</cite></p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body"><p class="first last">haracteristic : string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Population.PopulationClass.get_agents">
+<tt class="descname">get_agents</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Population.html#PopulationClass.get_agents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Population.PopulationClass.get_agents" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">Return all agents and their characteristics.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body"><dl class="first last docutils">
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">Agents</span></tt>: dict</dt>
+<dd><p class="first last">Dictionary of agents and their characteristics. The agents
+are the <cite>keys</cite> and a dictionary of <cite>characteristic:value</cite>
+pair is the entry.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Population.PopulationClass.get_info_DrugSexType">
+<tt class="descname">get_info_DrugSexType</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Population.html#PopulationClass.get_info_DrugSexType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Population.PopulationClass.get_info_DrugSexType" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body">Assess the Drug and Sex type prevalences of the population.</td>
+</tr>
+<tr class="field"><th class="field-name">Ooutput :</th><td class="field-body">data : dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Population.PopulationClass.get_info_DrugUserType">
+<tt class="descname">get_info_DrugUserType</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Population.html#PopulationClass.get_info_DrugUserType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Population.PopulationClass.get_info_DrugUserType" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body">Return number of IDU, NIDU, and ND users in one array.</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body">data : dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Population.PopulationClass.get_info_HIV_IDU">
+<tt class="descname">get_info_HIV_IDU</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Population.html#PopulationClass.get_info_HIV_IDU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Population.PopulationClass.get_info_HIV_IDU" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body">Return number of HIV among IDU agents. 
+Distinguish between MSM, WSW, HM, and HIF agents.</td>
+</tr>
+<tr class="field"><th class="field-name">Ooutput :</th><td class="field-body">data : dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Population.PopulationClass.print_info">
+<tt class="descname">print_info</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Population.html#PopulationClass.print_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Population.PopulationClass.print_info" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body">Simple fprintf test on std out.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="socialnetworkclass">
+<h3>SocialNetworkClass<a class="headerlink" href="#socialnetworkclass" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="HIVABM_Network.SocialNetworkClass">
+<em class="property">class </em><tt class="descclassname">HIVABM_Network.</tt><tt class="descname">SocialNetworkClass</tt><big>(</big><em>N=10000</em>, <em>m_0=3</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Network.html#SocialNetworkClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Network.SocialNetworkClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#HIVABM_Population.PopulationClass" title="HIVABM_Population.PopulationClass"><tt class="xref py py-class docutils literal"><span class="pre">HIVABM_Population.PopulationClass</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">This class inherits from the class <tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt>. It therefore 
+inherits the population and embeds all agents in a random social network.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body"><dl class="first docutils">
+<dt>N <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of agents. Default: 10000</p>
+</dd>
+<dt>m_0: int        </dt>
+<dd><p class="first last">Number of nodes each node is connected to in preferential
+attachment step</p>
+</dd>
+</dl>
+<p><tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt> : Inherited</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Attributes :</th><td class="field-body"><p class="first"><tt class="xref py py-attr docutils literal"><span class="pre">G</span></tt> : networkX graph object
+<tt class="xref py py-attr docutils literal"><span class="pre">pool_of_similar_nodes</span></tt></p>
+<p><tt class="xref py py-attr docutils literal"><span class="pre">repeated_nodes</span></tt></p>
+<p><tt class="xref py py-attr docutils literal"><span class="pre">repeated_nodes_IDU</span></tt></p>
+<p><tt class="xref py py-attr docutils literal"><span class="pre">repeated_nodes_NIDU</span></tt></p>
+<p><tt class="xref py py-attr docutils literal"><span class="pre">repeated_nodes_ND</span></tt></p>
+<p><tt class="xref py py-attr docutils literal"><span class="pre">repeated_nodes_HIV</span></tt></p>
+<p>All attributes from <tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt></p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Methods :</th><td class="field-body"><p class="first">All methods from <tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt></p>
+<p><tt class="xref py py-meth docutils literal"><span class="pre">_initialize_network()</span></tt></p>
+<p><tt class="xref py py-meth docutils literal"><span class="pre">_set_assortative_graph()</span></tt></p>
+<p><a class="reference internal" href="#HIVABM_Network.SocialNetworkClass.get_assortative_graph" title="HIVABM_Network.SocialNetworkClass.get_assortative_graph"><tt class="xref py py-meth docutils literal"><span class="pre">get_assortative_graph()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Network.SocialNetworkClass.visualize_network" title="HIVABM_Network.SocialNetworkClass.visualize_network"><tt class="xref py py-meth docutils literal"><span class="pre">visualize_network()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Network.SocialNetworkClass.plot_DegreeDistribution" title="HIVABM_Network.SocialNetworkClass.plot_DegreeDistribution"><tt class="xref py py-meth docutils literal"><span class="pre">plot_DegreeDistribution()</span></tt></a></p>
+<p class="last"><a class="reference internal" href="#HIVABM_Network.SocialNetworkClass.get_AdjacencyList" title="HIVABM_Network.SocialNetworkClass.get_AdjacencyList"><tt class="xref py py-meth docutils literal"><span class="pre">get_AdjacencyList()</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="HIVABM_Network.SocialNetworkClass.assess_risk_contacts">
+<tt class="descname">assess_risk_contacts</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Network.html#SocialNetworkClass.assess_risk_contacts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Network.SocialNetworkClass.assess_risk_contacts" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body">Assess the probability for risk contacts for 
+MSM, IDU and all other agents. Plot the results.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Network.SocialNetworkClass.get_AdjacencyList">
+<tt class="descname">get_AdjacencyList</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Network.html#SocialNetworkClass.get_AdjacencyList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Network.SocialNetworkClass.get_AdjacencyList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the adjacency list of the graph.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Network.SocialNetworkClass.get_assortative_graph">
+<tt class="descname">get_assortative_graph</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Network.html#SocialNetworkClass.get_assortative_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Network.SocialNetworkClass.get_assortative_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return random assortative graph produced by <tt class="docutils literal"><span class="pre">set_assortative_graph</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Network.SocialNetworkClass.plot_DegreeDistribution">
+<tt class="descname">plot_DegreeDistribution</tt><big>(</big><em>graph</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Network.html#SocialNetworkClass.plot_DegreeDistribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Network.SocialNetworkClass.plot_DegreeDistribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the node degree distribution of the graph.</p>
+<p>INPUT: networkX graph</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Network.SocialNetworkClass.plot_stratified_DegreeDistribution">
+<tt class="descname">plot_stratified_DegreeDistribution</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Network.html#SocialNetworkClass.plot_stratified_DegreeDistribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Network.SocialNetworkClass.plot_stratified_DegreeDistribution" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body">Plot the node degree distribution of the graph.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Network.SocialNetworkClass.visualize_network">
+<tt class="descname">visualize_network</tt><big>(</big><em>graph</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Network.html#SocialNetworkClass.visualize_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Network.SocialNetworkClass.visualize_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize the network using the spring layout (default).</p>
+<p>INPUT: networkX graph</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-HIVABM_Evolution">
+<span id="evolution"></span><h3>Evolution<a class="headerlink" href="#module-HIVABM_Evolution" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="HIVABM_Evolution.HIVModel">
+<em class="property">class </em><tt class="descclassname">HIVABM_Evolution.</tt><tt class="descname">HIVModel</tt><big>(</big><em>N=10000</em>, <em>tmax=40</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#HIVABM_Population.PopulationClass" title="HIVABM_Population.PopulationClass"><tt class="xref py py-class docutils literal"><span class="pre">HIVABM_Population.PopulationClass</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">This is the core class used to simulate 
+the spread of HIV and drug use in one MSA 
+(Metropolitan Statistical Area).</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body"><dl class="first docutils">
+<dt>N <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of agents. Default: 10000</p>
+</dd>
+<dt>tmax: int       </dt>
+<dd><p class="first last">Number of simulation steps (years).</p>
+</dd>
+</dl>
+<p><tt class="xref py py-class docutils literal"><span class="pre">SocialNetworkClass</span></tt> : Inherited</p>
+<p><tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt> : Inherited</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Attributes :</th><td class="field-body"><dl class="first docutils">
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">tmax</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of time steps simulated.</p>
+</dd>
+</dl>
+<p><tt class="xref py py-attr docutils literal"><span class="pre">CleanSyringeUsers</span></tt> : list</p>
+<dl class="docutils">
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">SafeSexUsers</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Dictionary of users who had safe sex {agent:time}.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">SEPAgents</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Dictionary of users who participated in a 
+syringe exchange program (SEP) {agent:time}.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">DrugTreatmentAgents</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Dictionary of users who underwent drug 
+treatment {agent:time}.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">TestedAgents</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of agents who get tested for HIV every time step.</p>
+</dd>
+<dt><tt class="xref py py-attr docutils literal"><span class="pre">tmp_Agents</span></tt> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Changes resulting from parsing through the agents 
+and applying the update rules are stored 
+in <tt class="xref py py-attr docutils literal"><span class="pre">tmp_agent_dict</span></tt>.</p>
+</dd>
+</dl>
+<p>All attributes from <tt class="xref py py-class docutils literal"><span class="pre">SocialNetworkClass</span></tt></p>
+<p>All attributes from <tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt></p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Methods :</th><td class="field-body"><p class="first"><a class="reference internal" href="#HIVABM_Evolution.HIVModel._update_population" title="HIVABM_Evolution.HIVModel._update_population"><tt class="xref py py-meth docutils literal"><span class="pre">_update_population()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel._needle_transmission" title="HIVABM_Evolution.HIVModel._needle_transmission"><tt class="xref py py-meth docutils literal"><span class="pre">_needle_transmission()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel._sex_transmission" title="HIVABM_Evolution.HIVModel._sex_transmission"><tt class="xref py py-meth docutils literal"><span class="pre">_sex_transmission()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel._drug_transition" title="HIVABM_Evolution.HIVModel._drug_transition"><tt class="xref py py-meth docutils literal"><span class="pre">_drug_transition()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel._update_IDU" title="HIVABM_Evolution.HIVModel._update_IDU"><tt class="xref py py-meth docutils literal"><span class="pre">_update_IDU()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel._update_NIDU_ND" title="HIVABM_Evolution.HIVModel._update_NIDU_ND"><tt class="xref py py-meth docutils literal"><span class="pre">_update_NIDU_ND()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel._update_AllAgents" title="HIVABM_Evolution.HIVModel._update_AllAgents"><tt class="xref py py-meth docutils literal"><span class="pre">_update_AllAgents()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel._VCT" title="HIVABM_Evolution.HIVModel._VCT"><tt class="xref py py-meth docutils literal"><span class="pre">_VCT()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel._SEP" title="HIVABM_Evolution.HIVModel._SEP"><tt class="xref py py-meth docutils literal"><span class="pre">_SEP()</span></tt></a></p>
+<p><tt class="xref py py-meth docutils literal"><span class="pre">_enter_drug_treatment()</span></tt></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel._initiate_HAART" title="HIVABM_Evolution.HIVModel._initiate_HAART"><tt class="xref py py-meth docutils literal"><span class="pre">_initiate_HAART()</span></tt></a></p>
+<p><tt class="xref py py-meth docutils literal"><span class="pre">_get_partner()</span></tt></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel._update_AllAgents" title="HIVABM_Evolution.HIVModel._update_AllAgents"><tt class="xref py py-meth docutils literal"><span class="pre">_update_AllAgents()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel.run" title="HIVABM_Evolution.HIVModel.run"><tt class="xref py py-meth docutils literal"><span class="pre">run()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel.store_results" title="HIVABM_Evolution.HIVModel.store_results"><tt class="xref py py-meth docutils literal"><span class="pre">store_results()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel.get_HIV_prevalence_drugs" title="HIVABM_Evolution.HIVModel.get_HIV_prevalence_drugs"><tt class="xref py py-meth docutils literal"><span class="pre">get_HIV_prevalence_drugs()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel.get_HIV_prevalence" title="HIVABM_Evolution.HIVModel.get_HIV_prevalence"><tt class="xref py py-meth docutils literal"><span class="pre">get_HIV_prevalence()</span></tt></a></p>
+<p><a class="reference internal" href="#HIVABM_Evolution.HIVModel.plot_results" title="HIVABM_Evolution.HIVModel.plot_results"><tt class="xref py py-meth docutils literal"><span class="pre">plot_results()</span></tt></a></p>
+<p>All methods from <tt class="xref py py-class docutils literal"><span class="pre">SocialNetworkClass</span></tt></p>
+<p class="last">All methods from <tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt></p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel._update_population">
+<tt class="descname">_update_population</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel._update_population"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel._update_population" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body">Update the population. Changes resulting from parsing
+through the agents and applying the update rules are stored 
+in <tt class="xref py py-attr docutils literal"><span class="pre">tmp_agent_dict</span></tt>. This method updates the whole 
+population, i.e., it copies changes from the <tt class="xref py py-attr docutils literal"><span class="pre">tmp_agent_dict</span></tt>
+dictionary and copies it into the <tt class="xref py py-attr docutils literal"><span class="pre">Agents</span></tt> dictionary.</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body">none</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel._needle_transmission">
+<tt class="descname">_needle_transmission</tt><big>(</big><em>agent</em>, <em>partner</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel._needle_transmission"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel._needle_transmission" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">Simulate random transmission of HIV between two IDU agents through needle.</p>
+<p>Needed in _update_IDUand</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body"><p class="first">agents : int
+partner : int</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel._sex_transmission">
+<tt class="descname">_sex_transmission</tt><big>(</big><em>agent</em>, <em>partner</em>, <em>time</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel._sex_transmission"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel._sex_transmission" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">Simulate random transmission of HIV between two agents through Sex. 
+Needed for all users. Sex is not possible in case the agent and 
+assigned partner have incompatible Sex behavior.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body"><p class="first">agents : int
+partner : int
+time : int</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel._drug_transition">
+<tt class="descname">_drug_transition</tt><big>(</big><em>agent</em>, <em>partner</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel._drug_transition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel._drug_transition" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">Simulate transition of drug behavior. The following scenarios are 
+possible:
++ ND agent might become NIDU when meeting NIDU 
++ NIDU might become IDU when meeting IDU 
+The function is only applied for NIDU and ND users.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body"><p class="first">agents : int
+partner : int</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel._update_IDU">
+<tt class="descname">_update_IDU</tt><big>(</big><em>agent</em>, <em>partner</em>, <em>time</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel._update_IDU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel._update_IDU" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">Let IDU agent interact with a partner.
+Update IDU agents:</p>
+<blockquote>
+<div><p>1 - determine transition type
+2 - Injection rules
+3 - Sex rules
+4 - HIV transmission
+5 - SEP</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body"><p class="first">agent : int</p>
+<p>partner : int</p>
+<p class="last">time : int</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Output: </dt>
+<dd>none</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel._update_NIDU_ND">
+<tt class="descname">_update_NIDU_ND</tt><big>(</big><em>agent</em>, <em>partner</em>, <em>time</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel._update_NIDU_ND"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel._update_NIDU_ND" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body">Let NIDU or ND agent interact.</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body">agent : int
+partner : int 
+time : int</td>
+</tr>
+</tbody>
+</table>
+<p>Output: none</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel._VCT">
+<tt class="descname">_VCT</tt><big>(</big><em>agent</em>, <em>time</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel._VCT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel._VCT" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body">Account for voluntary Counseling and Testing(VCT)</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body">agent : int
+partner : int
+time : int</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel._SEP">
+<tt class="descname">_SEP</tt><big>(</big><em>agent</em>, <em>time</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel._SEP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel._SEP" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">Account for SEP (Syringe Exchange Program) for IDU agents.</p>
+<p>SEP use depends on the year and the functional relationship
+is given by
+P(SEP USE (t+1) | IDU) = P(SEP USE (t) | IDU)*f_t(SEP density)
+where f_t(SEP density) = (1+? + ln(?))</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body"><p class="first">time : int</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel._initiate_HAART">
+<tt class="descname">_initiate_HAART</tt><big>(</big><em>agent</em>, <em>time</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel._initiate_HAART"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel._initiate_HAART" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body">Account for HIV treatment through highly active antiretroviral therapy (HAART).
+HAART was implemented in 1996, hence, there is treatment only after 1996.
+HIV treatment assumes that the agent knows his HIV+ status.</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body">time : int</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel._update_AllAgents">
+<tt class="descname">_update_AllAgents</tt><big>(</big><em>time</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel._update_AllAgents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel._update_AllAgents" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Purpose :</th><td class="field-body"><p class="first">Update IDU agents:</p>
+<p>For each agent:</p>
+<blockquote>
+<div><p>1 - determine agent type
+2 - update accordingly
+3 - VCT (Voluntsry Counseling and Testing)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Input :</th><td class="field-body"><p class="first">agent, time</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Output :</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Core of the model 
+:param agent: agent</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel.store_results">
+<tt class="descname">store_results</tt><big>(</big><em>time</em><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel.store_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel.store_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store result into appropriate arrays</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel.get_HIV_prevalence_drugs">
+<tt class="descname">get_HIV_prevalence_drugs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel.get_HIV_prevalence_drugs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel.get_HIV_prevalence_drugs" title="Permalink to this definition">¶</a></dt>
+<dd><p>get HIV prevalence within all three drug user groups</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel.get_HIV_prevalence">
+<tt class="descname">get_HIV_prevalence</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel.get_HIV_prevalence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel.get_HIV_prevalence" title="Permalink to this definition">¶</a></dt>
+<dd><p>get HIV prevalence within IDUs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="HIVABM_Evolution.HIVModel.plot_results">
+<tt class="descname">plot_results</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/HIVABM_Evolution.html#HIVModel.plot_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#HIVABM_Evolution.HIVModel.plot_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot Results</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="background.html" title="Background"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Lars Seemann.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

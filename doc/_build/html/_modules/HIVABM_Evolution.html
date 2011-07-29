@@ -1,0 +1,871 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>HIVABM_Evolution &mdash; HIVABM v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="HIVABM v0.1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html"><img src="../_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for HIVABM_Evolution</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># encoding: utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module that carries the defintions for the Population for </span>
+<span class="sd">the ABM of drug use and HIV.</span>
+
+<span class="sd">+ Author:		Lars Seemann</span>
+<span class="sd">+ Email:		lseemann@uh.edu</span>
+<span class="sd">+ Date:		2011-01-28</span>
+
+<span class="sd">Copyright (c) 2010, under the Simplified BSD License. \n</span>
+<span class="sd">For more information on FreeBSD see: http://www.opensource.org/licenses/bsd-license.php \n</span>
+<span class="sd">All rights reserved.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__author__</span><span class="o">=</span><span class="s">&quot;Lars Seemann (lseemann@uh.edu)&quot;</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span><span class="p">,</span> <span class="n">copy</span>
+<span class="k">try</span><span class="p">:</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s">&quot;You must install numpy (http://numpy.scipy.org/)&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s">&quot;You must install matplotlib (http://matplotlib.sourceforge.net/)&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">HIVABM_Population</span> <span class="kn">import</span> <span class="n">PopulationClass</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s">&quot;Can&#39;t import PopulationClass&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HIVModel"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel">[docs]</a><span class="k">class</span> <span class="nc">HIVModel</span><span class="p">(</span><span class="n">PopulationClass</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :Purpose:</span>
+<span class="sd">    	This is the core class used to simulate </span>
+<span class="sd">    	the spread of HIV and drug use in one MSA </span>
+<span class="sd">    	(Metropolitan Statistical Area).</span>
+
+<span class="sd">    :Input:	</span>
+<span class="sd">    	N : int</span>
+<span class="sd">    		Number of agents. Default: 10000</span>
+
+<span class="sd">    	tmax: int	</span>
+<span class="sd">    		Number of simulation steps (years).</span>
+
+<span class="sd">    	:py:class:`SocialNetworkClass` : Inherited</span>
+
+<span class="sd">    	:py:class:`PopulationClass` : Inherited</span>
+
+<span class="sd">    :Attributes:</span>
+<span class="sd">    	:py:attr:`tmax` : int</span>
+<span class="sd">    		Number of time steps simulated.</span>
+
+<span class="sd">    	:py:attr:`CleanSyringeUsers` : list</span>
+
+<span class="sd">    	:py:attr:`SafeSexUsers` : dict</span>
+<span class="sd">            Dictionary of users who had safe sex {agent:time}.</span>
+
+<span class="sd">    	:py:attr:`SEPAgents` : dict</span>
+<span class="sd">            Dictionary of users who participated in a </span>
+<span class="sd">            syringe exchange program (SEP) {agent:time}.</span>
+
+<span class="sd">    	:py:attr:`DrugTreatmentAgents` : dict</span>
+<span class="sd">            Dictionary of users who underwent drug </span>
+<span class="sd">            treatment {agent:time}.</span>
+
+<span class="sd">    	:py:attr:`TestedAgents` : list</span>
+<span class="sd">            List of agents who get tested for HIV every time step.</span>
+
+<span class="sd">    	:py:attr:`tmp_Agents` : dict</span>
+<span class="sd">            Changes resulting from parsing through the agents </span>
+<span class="sd">            and applying the update rules are stored </span>
+<span class="sd">            in :py:attr:`tmp_agent_dict`.</span>
+
+<span class="sd">    	All attributes from :py:class:`SocialNetworkClass` \n</span>
+
+<span class="sd">    	All attributes from :py:class:`PopulationClass` </span>
+
+<span class="sd">    :Methods:</span>
+<span class="sd">    	:py:meth:`_update_population` \n</span>
+<span class="sd">    	:py:meth:`_needle_transmission` \n</span>
+<span class="sd">    	:py:meth:`_sex_transmission` \n</span>
+<span class="sd">    	:py:meth:`_drug_transition` \n</span>
+<span class="sd">    	:py:meth:`_update_IDU` \n</span>
+<span class="sd">    	:py:meth:`_update_NIDU_ND` \n</span>
+<span class="sd">    	:py:meth:`_update_AllAgents` \n</span>
+<span class="sd">    	:py:meth:`_VCT` \n</span>
+<span class="sd">        :py:meth:`_SEP` \n</span>
+<span class="sd">        :py:meth:`_enter_drug_treatment` \n</span>
+<span class="sd">        :py:meth:`_initiate_HAART` \n</span>
+<span class="sd">        :py:meth:`_get_partner` \n</span>
+<span class="sd">        :py:meth:`_update_AllAgents` \n</span>
+<span class="sd">    	:py:meth:`run` \n</span>
+<span class="sd">    	:py:meth:`store_results` \n</span>
+<span class="sd">    	:py:meth:`get_HIV_prevalence_drugs` \n</span>
+<span class="sd">    	:py:meth:`get_HIV_prevalence` \n</span>
+<span class="sd">    	:py:meth:`plot_results` \n</span>
+<span class="sd">    	All methods from :py:class:`SocialNetworkClass` \n</span>
+<span class="sd">    	All methods from :py:class:`PopulationClass`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">tmax</span> <span class="o">=</span> <span class="mi">40</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initialize HIVModel object &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">tmax</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Number of time steps must be integer&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tmax</span> <span class="o">=</span> <span class="n">tmax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N_TreatmentSpots</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c"># initiate total number of treatment spots</span>
+
+        <span class="c"># Initialize inherited social Network</span>
+        <span class="c">#print &#39;Create Social Network...&#39;</span>
+        <span class="c">#PopulationClass.__init__(self, n = N)	# Create population</span>
+
+        <span class="c"># OLD</span>
+        <span class="c"># Clean syring users</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CleanSyringeUsers</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">agent_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span> <span class="ow">and</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">CleanSyringeUsers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+        <span class="c"># Other lists / dictionaries</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SafeSexUsers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>			<span class="c"># dict of users who had safe sex (agent:time)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SEPAgents</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>				<span class="c"># dict of users who used SEP ( agent:time)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DrugTreatmentAgents_current</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>	<span class="c"># dictionary of users who are currently undergoing  </span>
+                                                        <span class="c"># drug treatent (agent:time)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DrugTreatmentAgents_past</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>	        <span class="c"># dictionary of users who underwent drug treat- </span>
+                                                        <span class="c"># ment in the past(agent:time)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">VCTAgents</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>			        <span class="c"># list of agents who get tested for HIV ((agent:time) </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">HAARTAgents</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>			<span class="c"># list of agents in HIV treatment (agent:time) </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">HAARTAdherence</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>			<span class="c"># list of agents HIV treatment (HAART) adherence (agent:adherence)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tmp_Agents</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>			<span class="c"># dictionary that keeps track of the update </span>
+
+
+        <span class="c"># Keep track of results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IDUprevalence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span>			
+        <span class="bp">self</span><span class="o">.</span><span class="n">NIDUprevalence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span>			
+        <span class="bp">self</span><span class="o">.</span><span class="n">NDprevalence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">HIVtotalPrevalence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span>				
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">HIVinIDU</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span>	
+        <span class="bp">self</span><span class="o">.</span><span class="n">HIVinNIDU</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span>	
+        <span class="bp">self</span><span class="o">.</span><span class="n">HIVinND</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span>	
+
+<div class="viewcode-block" id="HIVModel._update_population"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel._update_population">[docs]</a>    <span class="k">def</span> <span class="nf">_update_population</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">        	Update the population. Changes resulting from parsing</span>
+<span class="sd">        	through the agents and applying the update rules are stored </span>
+<span class="sd">        	in :py:attr:`tmp_agent_dict`. This method updates the whole </span>
+<span class="sd">        	population, i.e., it copies changes from the :py:attr:`tmp_agent_dict`</span>
+<span class="sd">        	dictionary and copies it into the :py:attr:`Agents` dictionary.</span>
+<span class="sd">        :Input:</span>
+<span class="sd">            none</span>
+
+<span class="sd">        :Output: </span>
+<span class="sd">            none</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">u</span><span class="p">:</span><span class="n">d</span><span class="p">})</span>
+</div>
+<div class="viewcode-block" id="HIVModel._needle_transmission"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel._needle_transmission">[docs]</a>    <span class="k">def</span> <span class="nf">_needle_transmission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">        	Simulate random transmission of HIV between two IDU agents through needle.\n </span>
+<span class="sd">        	Needed in _update_IDUand</span>
+<span class="sd">        :Input:</span>
+<span class="sd">        	agents : int</span>
+<span class="sd">        	partner : int</span>
+<span class="sd">        :Output: -</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># both must be IDU</span>
+        <span class="n">partner_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+        <span class="n">agent_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">partner_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span> <span class="ow">and</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span> <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;To share a needle both agents must be IDU&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Do they share a needle?</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SEPAgents</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">or</span> <span class="n">partner</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SEPAgents</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="p">):</span>
+                <span class="k">pass</span> <span class="c"># no needle sharing</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.66</span><span class="p">):</span> 
+                <span class="k">pass</span> <span class="c"># no needle sharing</span>
+            <span class="k">else</span><span class="p">:</span>								<span class="c"># they do share a needle</span>
+                <span class="c"># HIV+ ?</span>
+                <span class="n">HIV_agent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span><span class="s">&#39;HIV&#39;</span><span class="p">)</span>
+                <span class="n">HIV_partner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span><span class="s">&#39;HIV&#39;</span><span class="p">)</span>
+                <span class="c"># if agent HIV+</span>
+                <span class="k">if</span> <span class="n">HIV_agent</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.009</span><span class="p">:</span>
+                    <span class="n">tmp_partner_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">partner</span><span class="p">])</span>
+                    <span class="n">tmp_partner_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;HIV&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">partner</span> <span class="p">:</span> <span class="n">tmp_partner_dict</span><span class="p">})</span>
+                <span class="c"># if partner HIV+</span>
+                <span class="k">if</span> <span class="n">HIV_partner</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.009</span><span class="p">:</span>
+                    <span class="n">tmp_agent_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">agent</span><span class="p">])</span>
+                    <span class="n">tmp_agent_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;HIV&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span> <span class="p">:</span> <span class="n">tmp_partner_dict</span><span class="p">})</span>
+</div>
+<div class="viewcode-block" id="HIVModel._sex_transmission"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel._sex_transmission">[docs]</a>    <span class="k">def</span> <span class="nf">_sex_transmission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">        	Simulate random transmission of HIV between two agents through Sex. </span>
+<span class="sd">        	Needed for all users. Sex is not possible in case the agent and </span>
+<span class="sd">        	assigned partner have incompatible Sex behavior.</span>
+
+<span class="sd">        :Input:</span>
+<span class="sd">        	agents : int</span>
+<span class="sd">        	partner : int</span>
+<span class="sd">        	time : int</span>
+
+<span class="sd">        :Output: -	</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Sex possible?</span>
+        <span class="n">Type_agent</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span><span class="s">&#39;Sex Type&#39;</span><span class="p">)</span>
+        <span class="n">Type_partner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span><span class="s">&#39;Sex Type&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Type_agent</span> <span class="o">==</span> <span class="s">&#39;HM&#39;</span> <span class="ow">and</span> <span class="n">Type_partner</span> <span class="ow">in</span> <span class="p">[</span> <span class="s">&#39;HF&#39;</span><span class="p">,</span> <span class="s">&#39;MSM&#39;</span><span class="p">]:</span>
+            <span class="n">SexPossible</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">flag_HomoSex</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">Type_partner</span> <span class="o">==</span> <span class="s">&#39;HM&#39;</span> <span class="ow">and</span> <span class="n">Type_agent</span> <span class="ow">in</span> <span class="p">[</span> <span class="s">&#39;HF&#39;</span><span class="p">,</span> <span class="s">&#39;MSM&#39;</span><span class="p">]:</span>
+            <span class="n">SexPossible</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">flag_HomoSex</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">Type_agent</span> <span class="o">==</span> <span class="s">&#39;MSM&#39;</span> <span class="ow">and</span> <span class="n">Type_partner</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;MSM&#39;</span><span class="p">,</span> <span class="s">&#39;WSW&#39;</span> <span class="p">,</span> <span class="s">&#39;HF&#39;</span><span class="p">]:</span>
+            <span class="n">SexPossible</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">flag_HomoSex</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">Type_partner</span> <span class="o">==</span> <span class="s">&#39;MSM&#39;</span> <span class="ow">and</span> <span class="n">Type_agent</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;MSM&#39;</span><span class="p">,</span> <span class="s">&#39;WSW&#39;</span> <span class="p">,</span> <span class="s">&#39;HF&#39;</span><span class="p">]:</span>
+            <span class="n">SexPossible</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">flag_HomoSex</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">Type_agent</span> <span class="o">==</span> <span class="s">&#39;WSW&#39;</span> <span class="ow">and</span> <span class="n">Type_partner</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;MSM&#39;</span><span class="p">,</span> <span class="s">&#39;WSW&#39;</span> <span class="p">,</span> <span class="s">&#39;HM&#39;</span><span class="p">]:</span>
+            <span class="n">SexPossible</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">flag_HomoSex</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">Type_partner</span> <span class="o">==</span> <span class="s">&#39;WSW&#39;</span> <span class="ow">and</span> <span class="n">Type_agent</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;MSM&#39;</span><span class="p">,</span> <span class="s">&#39;WSW&#39;</span> <span class="p">,</span> <span class="s">&#39;HM&#39;</span><span class="p">]:</span>
+            <span class="n">SexPossible</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">flag_HomoSex</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">SexPossible</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c"># Agents have sex</span>
+        <span class="k">if</span> <span class="n">SexPossible</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c"># probability of safe sex</span>
+            <span class="k">if</span> <span class="n">flag_HomoSex</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">p_safe</span> <span class="o">=</span> <span class="mf">0.61</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">p_safe</span> <span class="o">=</span> <span class="mf">0.8</span>
+            <span class="c"># Safe Sex?</span>
+            <span class="c"># Safe Sex Users ?</span>
+            <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SafeSexUsers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">time_safe_sex</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">SafeSexUsers</span><span class="p">[</span><span class="n">agent</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">time_safe_sex</span> <span class="o">&gt;</span> <span class="p">(</span> <span class="n">time</span> <span class="o">-</span> <span class="mi">2</span> <span class="p">):</span>
+                    <span class="n">SexStatus</span> <span class="o">=</span> <span class="s">&#39;safe&#39;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">SafeSexUsers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">,</span> <span class="n">partner</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">SexStatus</span> <span class="o">=</span> <span class="s">&#39;unsafe&#39;</span>
+            <span class="k">elif</span> <span class="n">partner</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SafeSexUsers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">time_safe_sex</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">SafeSexUsers</span><span class="p">[</span><span class="n">partner</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">time_safe_sex</span> <span class="o">&gt;</span> <span class="p">(</span> <span class="n">time</span> <span class="o">-</span> <span class="mi">2</span> <span class="p">):</span>
+                    <span class="n">SexStatus</span> <span class="o">=</span> <span class="s">&#39;safe&#39;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">SafeSexUsers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">,</span> <span class="n">partner</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">SexStatus</span> <span class="o">=</span> <span class="s">&#39;unsafe&#39;</span>
+            <span class="k">elif</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">p_safe</span><span class="p">:</span>
+                <span class="n">SexStatus</span> <span class="o">=</span> <span class="s">&#39;safe&#39;</span>
+                <span class="c"># update SafeSexUser</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">SafeSexUsers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">,</span> <span class="n">partner</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">SexStatus</span> <span class="o">=</span> <span class="s">&#39;unsafe&#39;</span>
+
+            <span class="c"># HIV transmission</span>
+            <span class="k">if</span> <span class="n">SexStatus</span> <span class="o">==</span> <span class="s">&#39;unsafe&#39;</span><span class="p">:</span>
+                <span class="n">HIV_agent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span><span class="s">&#39;HIV&#39;</span><span class="p">)</span>
+                <span class="n">HIV_partner</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span><span class="s">&#39;HIV&#39;</span><span class="p">)</span>
+                <span class="c"># if agent HIV+</span>
+                <span class="k">if</span> <span class="n">HIV_agent</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.2</span><span class="p">:</span>
+                    <span class="n">tmp_partner_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">partner</span><span class="p">])</span>
+                    <span class="n">tmp_partner_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;HIV&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">partner</span> <span class="p">:</span> <span class="n">tmp_partner_dict</span><span class="p">})</span>
+                <span class="c"># if partner HIV+</span>
+                <span class="k">if</span> <span class="n">HIV_partner</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.2</span><span class="p">:</span>
+                    <span class="n">tmp_agent_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">agent</span><span class="p">])</span>
+                    <span class="n">tmp_agent_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;HIV&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span> <span class="p">:</span> <span class="n">tmp_agent_dict</span><span class="p">})</span>
+</div>
+<div class="viewcode-block" id="HIVModel._drug_transition"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel._drug_transition">[docs]</a>    <span class="k">def</span> <span class="nf">_drug_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">            Simulate transition of drug behavior. The following scenarios are </span>
+<span class="sd">            possible:</span>
+<span class="sd">            + ND agent might become NIDU when meeting NIDU </span>
+<span class="sd">            + NIDU might become IDU when meeting IDU </span>
+<span class="sd">            The function is only applied for NIDU and ND users.</span>
+
+<span class="sd">        :Input:</span>
+<span class="sd">            agents : int</span>
+<span class="sd">            partner : int</span>
+
+<span class="sd">        :Output: -</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">partner_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+        <span class="n">agent_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+        <span class="c"># NIDU -&gt; IDU</span>
+        <span class="k">if</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;NIDU&#39;</span> <span class="ow">and</span> <span class="n">partner_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.12</span><span class="p">:</span>
+                <span class="c"># agent becomes IDU</span>
+                <span class="n">tmp_agent_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">agent</span><span class="p">])</span>
+                <span class="n">tmp_agent_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;Drug Type&#39;</span> <span class="p">:</span> <span class="s">&#39;IDU&#39;</span><span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span> <span class="p">:</span> <span class="n">tmp_agent_dict</span><span class="p">})</span>
+        <span class="k">if</span>  <span class="n">partner_drug_type</span> <span class="o">==</span> <span class="s">&#39;NIDU&#39;</span> <span class="ow">and</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.12</span><span class="p">:</span>
+                <span class="c"># partner becomes IDU</span>
+                <span class="n">tmp_partner_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">partner</span><span class="p">])</span>
+                <span class="n">tmp_partner_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;Drug Type&#39;</span> <span class="p">:</span> <span class="s">&#39;IDU&#39;</span><span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">partner</span> <span class="p">:</span> <span class="n">tmp_partner_dict</span><span class="p">})</span>	
+        <span class="c"># ND -&gt; NIDU</span>
+        <span class="k">if</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;ND&#39;</span> <span class="ow">and</span> <span class="n">partner_drug_type</span> <span class="o">==</span> <span class="s">&#39;NIDU&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.30</span><span class="p">:</span>
+                <span class="c"># agent becomes NIDU</span>
+                <span class="n">tmp_agent_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">agent</span><span class="p">])</span>
+                <span class="n">tmp_agent_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;Drug Type&#39;</span> <span class="p">:</span> <span class="s">&#39;NIDU&#39;</span><span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span> <span class="p">:</span> <span class="n">tmp_agent_dict</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">partner_drug_type</span> <span class="o">==</span> <span class="s">&#39;ND&#39;</span> <span class="ow">and</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;NIDU&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.30</span><span class="p">:</span>
+                <span class="c"># partner becomes NIDU</span>
+                <span class="n">tmp_partner_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">partner</span><span class="p">])</span>
+                <span class="n">tmp_partner_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;Drug Type&#39;</span> <span class="p">:</span> <span class="s">&#39;NIDU&#39;</span><span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">partner</span> <span class="p">:</span> <span class="n">tmp_partner_dict</span><span class="p">})</span>	
+</div>
+<div class="viewcode-block" id="HIVModel._update_IDU"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel._update_IDU">[docs]</a>    <span class="k">def</span> <span class="nf">_update_IDU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">            Let IDU agent interact with a partner.</span>
+<span class="sd">            Update IDU agents:</span>
+<span class="sd">                    1 - determine transition type</span>
+<span class="sd">                    2 - Injection rules</span>
+<span class="sd">                    3 - Sex rules</span>
+<span class="sd">                    4 - HIV transmission</span>
+<span class="sd">                    5 - SEP</span>
+
+<span class="sd">        :Input:	</span>
+<span class="sd">            agent : int</span>
+<span class="sd">            </span>
+<span class="sd">            partner : int </span>
+<span class="sd">            </span>
+<span class="sd">            time : int</span>
+
+<span class="sd">        Output:	</span>
+<span class="sd">            none</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">partner_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+        <span class="n">agent_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">partner_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span> <span class="ow">and</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span> <span class="n">_needle_transmission</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sex_transmission</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">partner_drug_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;NIDU&#39;</span><span class="p">,</span> <span class="s">&#39;ND&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">agent_drug_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;NIDU&#39;</span><span class="p">,</span> <span class="s">&#39;ND&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_drug_transition</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sex_transmission</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Agents must be either IDU, NIDU, or ND&quot;</span><span class="p">)</span>
+
+        <span class="c"># SEP</span>
+        <span class="k">if</span> <span class="n">partner_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.6</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">SEPAgents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">partner</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.6</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">SEPAgents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+</div>
+<div class="viewcode-block" id="HIVModel._update_NIDU_ND"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel._update_NIDU_ND">[docs]</a>    <span class="k">def</span> <span class="nf">_update_NIDU_ND</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">            Let NIDU or ND agent interact.</span>
+<span class="sd">            </span>
+<span class="sd">        :Input:	</span>
+<span class="sd">        </span>
+<span class="sd">            agent : int</span>
+<span class="sd">            partner : int </span>
+<span class="sd">            time : int</span>
+<span class="sd">            </span>
+<span class="sd">        Output: none</span>
+<span class="sd">        &quot;&quot;&quot;</span>	
+        <span class="bp">self</span><span class="o">.</span><span class="n">_drug_transition</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sex_transmission</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="HIVModel._VCT"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel._VCT">[docs]</a>    <span class="k">def</span> <span class="nf">_VCT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">            Account for voluntary Counseling and Testing(VCT)</span>
+
+<span class="sd">        :Input:	</span>
+<span class="sd">            agent : int</span>
+<span class="sd">            partner : int</span>
+<span class="sd">            time : int</span>
+
+<span class="sd">        :Output:</span>
+<span class="sd">            none</span>
+<span class="sd">        &quot;&quot;&quot;</span>	
+        <span class="c"># Drug Treatment</span>
+        <span class="c"># SEP</span>
+        <span class="n">drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+        <span class="n">SEPstat</span> <span class="o">=</span> <span class="n">FALSE</span>
+        <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SEPAgents</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">time</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">SEPAgents</span><span class="p">[</span><span class="n">agent</span><span class="p">]:</span>
+                <span class="n">SEPstat</span> <span class="o">=</span> <span class="n">TRUE</span>
+            <span class="c"># MSM</span>
+        <span class="k">if</span> <span class="n">drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">SEPstat</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.75</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">VCTAgents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.60</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">VCTAgents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+        <span class="k">elif</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">MSM_agents</span> <span class="ow">and</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.25</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">VCTAgents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.09</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">VCTAgents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+</div>
+<div class="viewcode-block" id="HIVModel._SEP"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel._SEP">[docs]</a>    <span class="k">def</span> <span class="nf">_SEP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">            Account for SEP (Syringe Exchange Program) for IDU agents. \n</span>
+<span class="sd">            SEP use depends on the year and the functional relationship</span>
+<span class="sd">            is given by</span>
+<span class="sd">            P(SEP USE (t+1) | IDU) = P(SEP USE (t) | IDU)*f_t(SEP density)</span>
+<span class="sd">            where f_t(SEP density) = (1+? + ln(?))</span>
+
+<span class="sd">        :Input:	</span>
+<span class="sd">            time : int</span>
+
+<span class="sd">        :Output:</span>
+<span class="sd">            bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">agent</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">IDU_agents</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;_SEP only valid for IDU agents! </span><span class="si">%s</span><span class="s">&quot;</span><span class="o">%</span>
+                             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span><span class="s">&#39;Drug Type&#39;</span><span class="p">)))</span>
+        <span class="c"># The following values are estimated from the SEP prob plot in the documentation</span>
+        <span class="n">P_SEPuse_dict</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mf">0.275</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span><span class="mf">0.32</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span><span class="mf">0.34</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span><span class="mf">0.36</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span><span class="mf">0.38</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span><span class="mf">0.39</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span><span class="mf">0.41</span><span class="p">,</span> <span class="mi">10</span><span class="p">:</span><span class="mf">0.42</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span><span class="mf">0.44</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">&lt;</span><span class="n">P_SEPuse_dict</span><span class="p">[</span><span class="n">time</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SEPAgents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+</div>
+    <span class="k">def</span> <span class="nf">_enter_drug_treatment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">            Account for drug treatment. \n</span>
+<span class="sd">            Entering drug treatment is similar to SEP, drug treatment has a functional relationship given as </span>
+<span class="sd">            follows:</span>
+<span class="sd">            P(treatment (t+1) | IDU or NIDU) = P(treatment (agent,t) | IDU) if x &lt; N</span>
+<span class="sd">            else: 0 (x &gt;= 0)</span>
+<span class="sd">            where N is the total number of treatment slots available. \n</span>
+<span class="sd">            An agent who was already in drug treatment and relapsed, has a pobability twice as strong</span>
+<span class="sd">            to reenter drug treatment at a later point.</span>
+
+<span class="sd">        :Input:	</span>
+<span class="sd">            agent : int</span>
+
+<span class="sd">            time : int</span>
+
+<span class="sd">        :Output:</span>
+<span class="sd">            bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">N_TrSpots_Max</span> <span class="o">=</span> <span class="mi">500</span>   <span class="c"># max number of treatment spots</span>
+        <span class="n">CurrentlyTreatedFlag</span> <span class="o">=</span> <span class="n">FALSE</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_TreatmentSpots</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">:</span>
+            <span class="c"># Determine probability of treatment</span>
+            <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">DrugTreatmentAgents_current</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">CurrentlyTreatedFlag</span> <span class="o">=</span> <span class="n">TRUE</span>
+                <span class="n">prob</span> <span class="o">=</span> <span class="mf">0.6</span>
+            <span class="k">elif</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">DrugTreatmentAgents_past</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SEPAgents</span><span class="p">:</span>
+                    <span class="n">prob</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">*</span><span class="mf">0.09</span>
+                <span class="k">elif</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">IDU_agents</span> <span class="ow">or</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">NIDU_agents</span><span class="p">:</span>
+                    <span class="n">prob</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">*</span><span class="mf">0.18</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c"># Probability considering SEP status</span>
+                <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SEPAgents</span><span class="p">:</span>
+                    <span class="n">prob</span> <span class="o">=</span> <span class="mf">0.09</span>
+                <span class="k">elif</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">IDU_agents</span> <span class="ow">or</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">NIDU_agents</span><span class="p">:</span>
+                    <span class="n">prob</span> <span class="o">=</span> <span class="mf">0.18</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;_SEP only valid for NIDU or IDU agents! </span><span class="si">%s</span><span class="s">&quot;</span><span class="o">%</span>
+                                     <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span><span class="s">&#39;Drug Type&#39;</span><span class="p">)))</span> 
+            <span class="c"># Assign treatment randomly</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">factor</span><span class="o">*</span><span class="mf">0.09</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">DrugTreatmentAgents_current</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">N_TreatmentSpots</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">return</span> <span class="n">TRUE</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">CurrentlyTreatedFlag</span><span class="p">:</span>
+                    <span class="c"># Exit drug treatment</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">DrugTreatmentAgents_past</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">DrugTreatmentAgents_current</span><span class="p">[</span><span class="n">agent</span><span class="p">]})</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">DrugTreatmentAgents_current</span><span class="p">[</span><span class="n">agent</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">FALSE</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_TreatmentSpots</span> <span class="o">==</span> <span class="mi">500</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">FALSE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Check self.N_TreatmentSpots! Max value = 500! </span><span class="si">%d</span><span class="s">&quot;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">N_TreatmentSpots</span><span class="p">)</span>
+
+<div class="viewcode-block" id="HIVModel._initiate_HAART"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel._initiate_HAART">[docs]</a>    <span class="k">def</span> <span class="nf">_initiate_HAART</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">            Account for HIV treatment through highly active antiretroviral therapy (HAART).</span>
+<span class="sd">            HAART was implemented in 1996, hence, there is treatment only after 1996.</span>
+<span class="sd">            HIV treatment assumes that the agent knows his HIV+ status.</span>
+
+<span class="sd">        :Input:	</span>
+<span class="sd">            time : int</span>
+
+<span class="sd">        :Output:</span>
+<span class="sd">            none</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Determine probability of HIV treatment</span>
+        <span class="k">if</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>    <span class="c"># HAART implemented 1996</span>
+            <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">HAARTAgents</span><span class="p">:</span>
+                <span class="k">pass</span>    <span class="c"># agents never discontinure therapy</span>
+            <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VCTAgents</span><span class="p">:</span>
+                <span class="n">agent_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VCTAgents</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">DrugTreatmentAgents_current</span><span class="p">:</span>
+                            <span class="n">prob</span> <span class="o">=</span> <span class="mf">0.21</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">prob</span> <span class="o">=</span> <span class="mf">0.12</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VCTAgents</span><span class="p">:</span>
+                        <span class="n">prob</span> <span class="o">=</span> <span class="mf">0.22</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">prob</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">prob</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">HAARTAgents</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">time</span><span class="p">})</span>
+            <span class="c"># adherence</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.6</span><span class="p">:</span>
+                <span class="n">adherence</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">adherence</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">HAARTAdherence</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">adherence</span><span class="p">})</span>
+</div>
+    <span class="k">def</span> <span class="nf">_get_partner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">agent_drug_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">            Get a partner for agent.</span>
+
+<span class="sd">        :Input:	</span>
+<span class="sd">            agent : int</span>
+
+<span class="sd">            agent_drug_type : str</span>
+<span class="sd">              Either &#39;IDU&#39;, &#39;NIDU&#39;, &#39;ND&#39;</span>
+
+<span class="sd">        :Output:</span>
+<span class="sd">            partner : int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">agent</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PopulationSize</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid agent! </span><span class="si">%s</span><span class="s">&quot;</span><span class="o">%</span><span class="nb">str</span><span class="p">(</span><span class="n">agent</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">agent_drug_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;IDU&#39;</span><span class="p">,</span> <span class="s">&#39;NIDU&#39;</span><span class="p">,</span> <span class="s">&#39;ND&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid drug type! </span><span class="si">%s</span><span class="s">&quot;</span><span class="o">%</span><span class="nb">str</span><span class="p">(</span><span class="n">agent_drug_type</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;NIDU&#39;</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+
+
+<div class="viewcode-block" id="HIVModel._update_AllAgents"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel._update_AllAgents">[docs]</a>    <span class="k">def</span> <span class="nf">_update_AllAgents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">            Update IDU agents:\n</span>
+<span class="sd">            For each agent:\n</span>
+<span class="sd">                1 - determine agent type</span>
+<span class="sd">                2 - update accordingly</span>
+<span class="sd">                3 - VCT (Voluntsry Counseling and Testing)</span>
+
+<span class="sd">        :Input:</span>
+<span class="sd">            agent, time</span>
+
+<span class="sd">        :Output:</span>
+<span class="sd">            none</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>	
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">agent_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+            <span class="n">partners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacencyList</span><span class="p">[</span><span class="n">agent</span><span class="p">]</span>	<span class="c"># all social ties</span>
+            <span class="n">partner</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">partners</span><span class="p">)</span>	<span class="c"># chose random partner</span>
+            <span class="c"># Transmission of HIV / Transition of agents</span>
+
+            <span class="k">if</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_IDU</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_NIDU_ND</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+            <span class="c"># Counseling and Testing (VCT)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_VCT</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span><span class="n">time</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="HIVModel.run"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Core of the model </span>
+<span class="sd">        :param agent: agent</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span><span class="p">):</span>
+            <span class="k">print</span> <span class="p">(</span><span class="s">&#39;TIME = &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">+</span><span class="s">&#39; ________________________________________&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_AllAgents</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_population</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">store_results</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="HIVModel.store_results"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel.store_results">[docs]</a>    <span class="k">def</span> <span class="nf">store_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Store result into appropriate arrays &quot;&quot;&quot;</span>
+        <span class="n">NumIDU</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">NumNIDU</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">NumND</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">agent_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span> <span class="n">NumIDU</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;NIDU&#39;</span><span class="p">:</span> <span class="n">NumNIDU</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;ND&#39;</span><span class="p">:</span> <span class="n">NumND</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Agents must be either IDU, NIDU, or ND&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">IDUprevalence</span><span class="p">[</span><span class="n">time</span><span class="p">]</span> <span class="o">=</span> <span class="n">NumIDU</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NIDUprevalence</span><span class="p">[</span><span class="n">time</span><span class="p">]</span> <span class="o">=</span> <span class="n">NumNIDU</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NDprevalence</span><span class="p">[</span><span class="n">time</span><span class="p">]</span> <span class="o">=</span> <span class="n">NumND</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">HIVtotalPrevalence</span><span class="p">[</span><span class="n">time</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_HIV_prevalence</span><span class="p">()</span>
+
+        <span class="n">HIVinDrugsResults</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_HIV_prevalence_drugs</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">HIVinIDU</span><span class="p">[</span><span class="n">time</span><span class="p">]</span> <span class="o">=</span> <span class="n">HIVinDrugsResults</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">HIVinNIDU</span><span class="p">[</span><span class="n">time</span><span class="p">]</span> <span class="o">=</span> <span class="n">HIVinDrugsResults</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">HIVinND</span><span class="p">[</span><span class="n">time</span><span class="p">]</span> <span class="o">=</span> <span class="n">HIVinDrugsResults</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="HIVModel.get_HIV_prevalence_drugs"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel.get_HIV_prevalence_drugs">[docs]</a>    <span class="k">def</span> <span class="nf">get_HIV_prevalence_drugs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        get HIV prevalence within all three drug user groups</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">count_HIV_IDU</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">count_HIV_NIDU</span>  <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">count_HIV_ND</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="p">:</span>
+            <span class="n">HIVstatus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;HIV&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">HIVstatus</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">agent_drug_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;Drug Type&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;IDU&#39;</span><span class="p">:</span> <span class="n">count_HIV_IDU</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;NIDU&#39;</span><span class="p">:</span> <span class="n">count_HIV_NIDU</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">agent_drug_type</span> <span class="o">==</span> <span class="s">&#39;ND&#39;</span><span class="p">:</span> <span class="n">count_HIV_ND</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Agent must be either IDU, NIDU or ND !&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">HIVstatus</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span> <span class="n">HIVstatus</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;HIV status must be either 0 or 1 !&quot;</span><span class="p">)</span>
+        <span class="k">print</span> <span class="p">[</span><span class="n">count_HIV_IDU</span><span class="p">,</span> <span class="n">count_HIV_NIDU</span><span class="p">,</span> <span class="n">count_HIV_ND</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">count_HIV_IDU</span><span class="p">,</span> <span class="n">count_HIV_NIDU</span><span class="p">,</span> <span class="n">count_HIV_ND</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="HIVModel.get_HIV_prevalence"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel.get_HIV_prevalence">[docs]</a>    <span class="k">def</span> <span class="nf">get_HIV_prevalence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get HIV prevalence within IDUs &quot;&quot;&quot;</span>
+        <span class="n">HIVcount</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Agents</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">HIVstatus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;HIV&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">HIVstatus</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">HIVcount</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">print</span> <span class="n">HIVcount</span>
+        <span class="k">return</span> <span class="n">HIVcount</span>
+
+</div>
+<div class="viewcode-block" id="HIVModel.plot_results"><a class="viewcode-back" href="../documentation.html#HIVABM_Evolution.HIVModel.plot_results">[docs]</a>    <span class="k">def</span> <span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Plot Results &quot;&quot;&quot;</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">231</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IDUprevalence</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s">&#39;green&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;IDU&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time&#39;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">232</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NIDUprevalence</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s">&#39;green&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;NIDU&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time&#39;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">233</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NDprevalence</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s">&#39;green&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;ND&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time&#39;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">234</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">HIVinIDU</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;IDU HIV+&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time&#39;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">235</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">HIVinNIDU</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;NIDU HIV+ &#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time&#39;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">236</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">HIVinND</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;ND HIV+ &#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time&#39;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+</div></div>
+<span class="k">class</span> <span class="nc">TestClassMethods</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    :Purpose:</span>
+<span class="sd">    	Unittest for testing the methods of the HIV class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Purpose:</span>
+<span class="sd">            Tests that all models from setup pass inspection. </span>
+<span class="sd">            ``setUp`` is perfomed before each method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N_pop</span> <span class="o">=</span> <span class="mi">1000</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="mi">40</span>
+
+    <span class="k">def</span> <span class="nf">test_update_population</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test: :py:meth:`_update_population` &quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&quot; ... Test: method _update_population&quot;</span>
+        <span class="n">myModel</span> <span class="o">=</span> <span class="n">HIVModel</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_pop</span><span class="p">,</span> <span class="n">tmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">myModel</span><span class="o">.</span><span class="n">tmp_Agents</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:{</span><span class="s">&#39;N&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span> <span class="mi">2</span><span class="p">:{</span><span class="s">&#39;N&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">}}</span>
+        <span class="n">myModel</span><span class="o">.</span><span class="n">_update_population</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;N&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;M&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s">&#39;N&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s">&#39;M&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_needle_transmission</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test: :py:meth:`_needle_transmission` &quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&quot; ... Test: method _needle_transmission&quot;</span>	
+        <span class="n">myModel</span> <span class="o">=</span> <span class="n">HIVModel</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_pop</span><span class="p">,</span> <span class="n">tmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">chosenpairs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">myModel</span><span class="o">.</span><span class="n">IDU_agents</span><span class="p">:</span>
+            <span class="n">partner</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">IDU_agents</span><span class="p">)</span>
+            <span class="n">chosenpairs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">partner</span><span class="p">})</span>
+            <span class="n">myModel</span><span class="o">.</span><span class="n">_needle_transmission</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">myModel</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">agent</span> <span class="ow">in</span> <span class="n">myModel</span><span class="o">.</span><span class="n">IDU_agents</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;HIV&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="c"># agent or partner must have been HIV=1 before transmission</span>
+                <span class="n">HIVstatus</span> <span class="o">=</span> <span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">chosenpairs</span><span class="p">[</span><span class="n">agent</span><span class="p">]][</span><span class="s">&#39;HIV&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+                             <span class="ow">or</span> <span class="n">myModel</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">agent</span><span class="p">][</span><span class="s">&#39;HIV&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">HIVstatus</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_sex_transmission</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test: :py:meth:`_sex_transmission` &quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&quot; ... Test: method _sex_transmission&quot;</span>	
+        <span class="n">myModel</span> <span class="o">=</span> <span class="n">HIVModel</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_pop</span><span class="p">,</span> <span class="n">tmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">chosenpairs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">myModel</span><span class="o">.</span><span class="n">IDU_agents</span><span class="p">:</span>
+            <span class="n">partner</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">IDU_agents</span><span class="p">)</span>
+            <span class="n">chosenpairs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">agent</span><span class="p">:</span><span class="n">partner</span><span class="p">})</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+            <span class="n">myModel</span><span class="o">.</span><span class="n">_sex_transmission</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">myModel</span><span class="o">.</span><span class="n">tmp_Agents</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;HIV&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="c"># agent or partner must have been HIV=1 before transmission</span>
+                <span class="n">HIVstatus</span> <span class="o">=</span> <span class="p">(</span><span class="n">myModel</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">chosenpairs</span><span class="p">[</span><span class="n">agent</span><span class="p">]][</span><span class="s">&#39;HIV&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+                             <span class="ow">or</span> <span class="n">myModel</span><span class="o">.</span><span class="n">Agents</span><span class="p">[</span><span class="n">agent</span><span class="p">][</span><span class="s">&#39;HIV&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">HIVstatus</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="c"># check if sex behavior matches</span>
+                <span class="n">Type_agent</span> <span class="o">=</span> <span class="n">myModel</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="s">&#39;Sex Type&#39;</span><span class="p">)</span>
+                <span class="n">Type_partner</span> <span class="o">=</span> <span class="n">myModel</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span> <span class="s">&#39;Sex Type&#39;</span><span class="p">)</span>
+                <span class="n">Type_agent</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span><span class="s">&#39;Sex Type&#39;</span><span class="p">)</span>
+                <span class="n">Type_partner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_agent_charactersitic</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span><span class="s">&#39;Sex Type&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">Type_agent</span> <span class="o">==</span> <span class="s">&#39;HM&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Type_partner</span> <span class="ow">in</span> <span class="p">[</span> <span class="s">&#39;HF&#39;</span><span class="p">,</span> <span class="s">&#39;MSM&#39;</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">Type_partner</span> <span class="o">==</span> <span class="s">&#39;HM&#39;</span><span class="p">:</span>  <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Type_agent</span> <span class="ow">in</span> <span class="p">[</span> <span class="s">&#39;HF&#39;</span><span class="p">,</span> <span class="s">&#39;MSM&#39;</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">Type_agent</span> <span class="o">==</span> <span class="s">&#39;MSM&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Type_partner</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;MSM&#39;</span><span class="p">,</span> <span class="s">&#39;WSW&#39;</span> <span class="p">,</span> <span class="s">&#39;HF&#39;</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">Type_partner</span> <span class="o">==</span> <span class="s">&#39;MSM&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Type_agent</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;MSM&#39;</span><span class="p">,</span> <span class="s">&#39;WSW&#39;</span> <span class="p">,</span> <span class="s">&#39;HF&#39;</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">Type_agent</span> <span class="o">==</span> <span class="s">&#39;WSW&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Type_partner</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;MSM&#39;</span><span class="p">,</span> <span class="s">&#39;WSW&#39;</span> <span class="p">,</span> <span class="s">&#39;HM&#39;</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">Type_partner</span> <span class="o">==</span> <span class="s">&#39;WSW&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Type_agent</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;MSM&#39;</span><span class="p">,</span> <span class="s">&#39;WSW&#39;</span> <span class="p">,</span> <span class="s">&#39;HM&#39;</span><span class="p">])</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span><span class="o">==</span><span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;unittest&quot;&quot;&quot;</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>	
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Lars Seemann.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

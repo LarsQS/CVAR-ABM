@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial &mdash; HIVABM v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="HIVABM v0.1 documentation" href="index.html" />
+    <link rel="next" title="Background" href="background.html" />
+    <link rel="prev" title="HIVABM: Agent-based modeling of drug use and HIV spread" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html"><img src="_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="background.html" title="Background"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="HIVABM: Agent-based modeling of drug use and HIV spread"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#population-class">Population Class</a></li>
+<li><a class="reference internal" href="#network-class">Network Class</a></li>
+<li><a class="reference internal" href="#model-class">Model Class</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">HIVABM:  Agent-based modeling of drug use and HIV spread</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="background.html"
+                        title="next chapter">Background</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/getting_started.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tutorial">
+<span id="getting-started"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prerequisites">
+<span id="id1"></span><h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>You may already have <a class="reference external" href="http://docs.scipy.org">NumPy</a>
+installed &#8211; you can check by doing:</p>
+<div class="highlight-python"><pre>python -c 'import numpy'</pre>
+</div>
+<p>Also check for <a class="reference external" href="http://matplotlib.sourceforge.net/">Matplotlib</a>
+and <a class="reference external" href="http://networkx.lanl.gov/">NetworkX</a>:</p>
+<div class="highlight-python"><pre>python -c 'import matplotlib'
+python -c 'import networkx'</pre>
+</div>
+<p>We recommend the <a class="reference external" href="http://www.enthought.com/products/epd.php">Enthought Python Distribution (EPD)</a> , which is free for
+academic use. It contains many useful scientific programming libraries
+that are preconfigured for maximum compability.</p>
+</div>
+<div class="section" id="population-class">
+<span id="populationclasstutorial"></span><h2>Population Class<a class="headerlink" href="#population-class" title="Permalink to this headline">¶</a></h2>
+<p>Move to the directory where the files
+<tt class="file docutils literal"><span class="pre">HIVABM_Population.py</span></tt>, <tt class="file docutils literal"><span class="pre">HIVABM_Network.py</span></tt>, and
+<tt class="file docutils literal"><span class="pre">HIVABM_Evolution.py</span></tt> are stored.</p>
+<p>Each module is callable, i.e., we can call
+<tt class="file docutils literal"><span class="pre">HIVABM_Population.py</span></tt> directly from the shell. When the module is called it is tested
+with explicitly written test functions. If all tests pass
+succesfully it should look like this:</p>
+<div class="highlight-python"><pre>python HIVABM_Population.py
+ ... Testing the population
+ .
+ ----------------------------------------------------------------------
+ Ran 1 test in 1.719s
+
+ OK</pre>
+</div>
+<p>To understand the <a class="reference internal" href="documentation.html#HIVABM_Population.PopulationClass" title="HIVABM_Population.PopulationClass"><tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt></a> class better we can start a
+python session and work interactively, e.g., by typing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ipython</span>
+</pre></div>
+</div>
+<p>Let&#8217;s import the population:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">HIVABM_Population</span>
+</pre></div>
+</div>
+<p>and initialize an instance of the <a class="reference internal" href="documentation.html#HIVABM_Population.PopulationClass" title="HIVABM_Population.PopulationClass"><tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">myPopulation</span> <span class="o">=</span> <span class="n">HIVABM_Population</span><span class="o">.</span><span class="n">PopulationClass</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="mi">100000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We have just created a model population with the name
+<strong>myPopulation</strong>. Let&#8217;s have a look at some
+characteristics of the population.</p>
+<p>We can get some information about our population and print it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span> <span class="n">myPopulation</span><span class="o">.</span><span class="n">print_info</span><span class="p">()</span>
+<span class="go">Number of agents 100000</span>
+<span class="go">Number of IDU 1910</span>
+<span class="go">Number of NIDU 6469</span>
+<span class="go">Number of ND 91621</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myPopulation</span><span class="o">.</span><span class="n">get_info_DrugUserType</span><span class="p">()</span>
+<span class="go">  {&#39;Number of IDU agents&#39;: 1910,</span>
+<span class="go">   &#39;Number of ND agents&#39;: 91621,</span>
+<span class="go">   &#39;Number of NIDU agents&#39;: 6469}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myPopulation</span><span class="o">.</span><span class="n">get_info_HIV_IDU</span><span class="p">()</span>
+<span class="go">  {&#39;Number of HIV HF&#39;: 115,</span>
+<span class="go">   &#39;Number of HIV HM&#39;: 206,</span>
+<span class="go">   &#39;Number of HIV MSM&#39;: 42,</span>
+<span class="go">   &#39;Number of HIV WSW&#39;: 20}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myPopulation</span><span class="o">.</span><span class="n">get_info_DrugSexType</span><span class="p">()</span>
+<span class="go"> {&#39;Number of HF&#39;: 47149,</span>
+<span class="go">  &#39;Number of HF IDU&#39;: 514,</span>
+<span class="go">  &#39;Number of HF ND&#39;: 44256,</span>
+<span class="go">  &#39;Number of HF NIDU&#39;: 2379,</span>
+<span class="go">  &#39;Number of HM&#39;: 46909,</span>
+<span class="go">  &#39;Number of HM IDU&#39;: 1181,</span>
+<span class="go">  &#39;Number of HM ND&#39;: 42027,</span>
+<span class="go">  &#39;Number of HM NIDU&#39;: 3701,</span>
+<span class="go">  &#39;Number of MSM&#39;: 2278,</span>
+<span class="go">  &#39;Number of MSM IDU&#39;: 119,</span>
+<span class="go">  &#39;Number of MSM ND&#39;: 1946,</span>
+<span class="go">  &#39;Number of MSM NIDU&#39;: 213,</span>
+<span class="go">  &#39;Number of WSW&#39;: 3664,</span>
+<span class="go">  &#39;Number of WSW IDU&#39;: 96,</span>
+<span class="go">  &#39;Number of WSW ND&#39;: 3392,</span>
+<span class="go">  &#39;Number of WSW NIDU&#39;: 176}</span>
+</pre></div>
+</div>
+<p>First note how all three methods are attributes of our population instance
+<tt class="xref py py-class docutils literal"><span class="pre">myPopulation</span></tt>. Also note that the information are returned in
+form of a dictionary.</p>
+<p>We can return all agents and their characteristics (dictionary) and have a look at
+the first agent explicitly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span> <span class="n">AgentsDict</span> <span class="o">=</span>  <span class="n">myPopulation</span><span class="o">.</span><span class="n">get_agents</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="nb">type</span><span class="p">(</span><span class="n">AgentsDict</span><span class="p">)</span>
+<span class="go">&lt;type &#39;dict&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="nb">len</span><span class="p">(</span><span class="n">AgentsDict</span><span class="p">)</span>
+<span class="go">100000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">AgentsDict</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">{&#39;AIDS&#39;: 0, &#39;Sex Type&#39;: &#39;HF&#39;, &#39;HIV&#39;: 0, &#39;Drug Type&#39;: &#39;ND&#39;}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="network-class">
+<span id="networkclasstutorial"></span><h2>Network Class<a class="headerlink" href="#network-class" title="Permalink to this headline">¶</a></h2>
+<p>Move to the directory where the files
+<tt class="file docutils literal"><span class="pre">HIVABM_Population.py</span></tt>, <tt class="file docutils literal"><span class="pre">HIVABM_Network.py</span></tt>, and
+<tt class="file docutils literal"><span class="pre">HIVABM_Evolution.py</span></tt> are stored.</p>
+<p>As before, we can first test the module through calling it directly. If all the tests pass
+succesfully it should look like this:</p>
+<div class="highlight-python"><pre>python HIVABM_Network.py
+ ... Testing the network initialization
+ . ... Testing the method _set_pool
+ . ... Testing the method _update_pool
+ .
+ ----------------------------------------------------------------------
+ Ran 3 tests in 0.324s
+
+ OK</pre>
+</div>
+<p>To understand the <a class="reference internal" href="documentation.html#HIVABM_Network.SocialNetworkClass" title="HIVABM_Network.SocialNetworkClass"><tt class="xref py py-class docutils literal"><span class="pre">SocialNetworkClass</span></tt></a> class better we can start a
+python session and work interactively, e.g., by typing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">python</span>
+</pre></div>
+</div>
+<p>Let&#8217;s import the population:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">HIVABM_Network</span>
+</pre></div>
+</div>
+<p>and initialize an instance of the <a class="reference internal" href="documentation.html#HIVABM_Network.SocialNetworkClass" title="HIVABM_Network.SocialNetworkClass"><tt class="xref py py-class docutils literal"><span class="pre">SocialNetworkClass</span></tt></a> class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">myNetwork</span> <span class="o">=</span> <span class="n">HIVABM_Network</span><span class="o">.</span><span class="n">SocialNetworkClass</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that we chose a much smaller population size because we want to
+illustrate the graph later on.</p>
+<p>The class <a class="reference internal" href="documentation.html#HIVABM_Network.SocialNetworkClass" title="HIVABM_Network.SocialNetworkClass"><tt class="xref py py-class docutils literal"><span class="pre">SocialNetworkClass</span></tt></a> inherits all methods and
+attributes from the <a class="reference internal" href="documentation.html#HIVABM_Population.PopulationClass" title="HIVABM_Population.PopulationClass"><tt class="xref py py-class docutils literal"><span class="pre">HIVABM_Population.PopulationClass</span></tt></a> class. In fact, when we
+initialized the social network, we also intialized a population, which
+makes sense because we need the population for a social network. We
+can see that methods from <a class="reference internal" href="documentation.html#HIVABM_Population.PopulationClass" title="HIVABM_Population.PopulationClass"><tt class="xref py py-class docutils literal"><span class="pre">HIVABM_Population.PopulationClass</span></tt></a> are inherited:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">myNetwork</span><span class="o">.</span><span class="n">print_info</span><span class="p">()</span>
+<span class="go">Number of agents 500</span>
+<span class="go">Number of IDU 9</span>
+<span class="go">Number of NIDU 32</span>
+<span class="go">Number of ND 459</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNetwork</span><span class="o">.</span><span class="n">get_info_DrugUserType</span><span class="p">()</span>
+<span class="go"> {&#39;Number of IDU agents&#39;: 9,</span>
+<span class="go">  &#39;Number of ND agents&#39;: 459,</span>
+<span class="go">  &#39;Number of NIDU agents&#39;: 32}</span>
+</pre></div>
+</div>
+<p>We have intiated our network instance named <strong>myNetwork</strong> and have
+created the social network. This was done automatically during the
+initiation by calling the method <tt class="xref py py-meth docutils literal"><span class="pre">SocialNetworkClass._set_assortative_graph()</span></tt>.</p>
+<p>Let&#8217;s have a closer look at our social network. The social network is
+a networkX object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">myNetwork</span><span class="o">.</span><span class="n">get_assortative_graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">&lt;class &#39;networkx.classes.graph.Graph&#39;&gt;</span>
+</pre></div>
+</div>
+<p>We can visualize the network:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">myNetwork</span><span class="o">.</span><span class="n">visualize_network</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="go">Plotting...</span>
+</pre></div>
+</div>
+<p>and should get a figure that looks similar to the follwing
+illustration.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/AssortativeNetworkExample.png"><img alt="_images/AssortativeNetworkExample.png" src="_images/AssortativeNetworkExample.png" style="width: 480.0px; height: 480.0px;" /></a>
+</div>
+<p>There might be a weird looking warning message. But as long as we see
+a figure I think it&#8217;s fine.</p>
+<p>We can also plot the node degree distribution. In oder to get a better
+approximation of the distribution we create a bigger network:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">myBigNetwork</span> <span class="o">=</span> <span class="n">HIVABM_Network</span><span class="o">.</span><span class="n">SocialNetworkClass</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BigG</span> <span class="o">=</span> <span class="n">myBigNetwork</span><span class="o">.</span><span class="n">get_assortative_graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myBigNetwork</span><span class="o">.</span><span class="n">plot_DegreeDistribution</span><span class="p">(</span><span class="n">BigG</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The figure illustrates that our model network is scale free, i.e.,
+that the node degree distribution follows a power law.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/ModelNodeDegreeDistribution.png"><img alt="_images/ModelNodeDegreeDistribution.png" src="_images/ModelNodeDegreeDistribution.png" style="width: 480.0px; height: 360.0px;" /></a>
+</div>
+</div>
+<div class="section" id="model-class">
+<span id="modelclasstutorial"></span><h2>Model Class<a class="headerlink" href="#model-class" title="Permalink to this headline">¶</a></h2>
+<p>This is the module that define the actual update rules.</p>
+<p>Move to the directory where the files
+<tt class="file docutils literal"><span class="pre">HIVABM_Population.py</span></tt>, <tt class="file docutils literal"><span class="pre">HIVABM_Network.py</span></tt>, and
+<tt class="file docutils literal"><span class="pre">HIVABM_Evolution.py</span></tt> are stored.</p>
+<p>As before, we can first test the module through calling it directly. If all the tests pass
+succesfully it should look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">python</span> <span class="n">HIVABM_Evolution</span><span class="o">.</span><span class="n">py</span>
+<span class="go"> ... Test: method _NeedleTransmission</span>
+<span class="go"> . ... Test: method _SexTransmission</span>
+<span class="go"> . ... Test: method _update_population</span>
+<span class="go"> .</span>
+<span class="go"> ----------------------------------------------------------------------</span>
+<span class="go"> Ran 3 tests in 0.122s</span>
+
+<span class="go"> OK</span>
+</pre></div>
+</div>
+<p>To understand the <a class="reference internal" href="documentation.html#HIVABM_Evolution.HIVModel" title="HIVABM_Evolution.HIVModel"><tt class="xref py py-class docutils literal"><span class="pre">HIVModel</span></tt></a> class better we can start a
+python session and work interactively, e.g., by typing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">python</span>
+</pre></div>
+</div>
+<p>Let&#8217;s import the population:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">HIVABM_Evolution</span>
+</pre></div>
+</div>
+<p>and initialize an instance of the <tt class="xref py py-class docutils literal"><span class="pre">SocialNetworkClass</span></tt> class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">myModel</span> <span class="o">=</span> <span class="n">HIVABM_Evolution</span><span class="o">.</span><span class="n">HIVModel</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The class <a class="reference internal" href="documentation.html#HIVABM_Evolution.HIVModel" title="HIVABM_Evolution.HIVModel"><tt class="xref py py-class docutils literal"><span class="pre">HIVModel</span></tt></a> inherits all methods and
+attributes from the <tt class="xref py py-class docutils literal"><span class="pre">SocialNetworkClass</span></tt> class and therefore
+also the ones from <tt class="xref py py-class docutils literal"><span class="pre">PopulationClass</span></tt>. We can  illustrate the
+inheritance with the following example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">myModel</span><span class="o">.</span><span class="n">print_info</span><span class="p">()</span>    <span class="c"># method defined in PopulationClass</span>
+<span class="go">Number of agents 10000</span>
+<span class="go">Number of IDU 191</span>
+<span class="go">Number of NIDU 646</span>
+<span class="go">Number of ND 9163</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">myModel</span><span class="o">.</span><span class="n">get_assortative_graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myModel</span><span class="o">.</span><span class="n">plot_DegreeDistribution</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can run a simulation of our model:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">myModel</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>and visualize the results:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">myModel</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="background.html" title="Background"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="HIVABM: Agent-based modeling of drug use and HIV spread"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Lars Seemann.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

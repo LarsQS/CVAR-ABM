@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Background &mdash; HIVABM v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="HIVABM v0.1 documentation" href="index.html" />
+    <link rel="next" title="Documentation" href="documentation.html" />
+    <link rel="prev" title="Tutorial" href="getting_started.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html"><img src="_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="documentation.html" title="Documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Background</a><ul>
+<li><a class="reference internal" href="#population">Population</a></li>
+<li><a class="reference internal" href="#msa">MSA</a></li>
+<li><a class="reference internal" href="#social-network">Social Network</a></li>
+<li><a class="reference internal" href="#update-rules">Update rules</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="getting_started.html"
+                        title="previous chapter">Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="documentation.html"
+                        title="next chapter">Documentation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/background.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="background">
+<span id="id1"></span><h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="population">
+<h2>Population<a class="headerlink" href="#population" title="Permalink to this headline">¶</a></h2>
+<p>Our system is modeled as a collection of autonomous decision-making
+agents embedded in space and time. We assign each agent with the
+following characteristics (and the associated possible values):</p>
+<ul class="simple">
+<li>Drug user type (IDU, NIDU, ND)</li>
+<li>Sex type (MSM, HM, WSW, HF)</li>
+<li>HIV status (0,1)</li>
+<li>Aids status (0,1)</li>
+</ul>
+<p>After initializing the population size, which is an input parameter in
+our model, these characteristics are assigned randomly to each
+agent. The given data allow us to estimate the distribution of these
+characteristics in the population. In particular, for each agent we
+assign the value for each internal exposure as follows: First,
+we define each agent&#8217;s drug user type. Second, we chose a random sex
+behavior for the agent based on the drug usage classification. Third,
+we specify the agent&#8217;s HIV and AIDS status based on the agent&#8217;s
+drug and sex behavior.</p>
+</div>
+<div class="section" id="msa">
+<h2>MSA<a class="headerlink" href="#msa" title="Permalink to this headline">¶</a></h2>
+<p>To come...</p>
+</div>
+<div class="section" id="social-network">
+<h2>Social Network<a class="headerlink" href="#social-network" title="Permalink to this headline">¶</a></h2>
+<p>Agents interact with each other through a static social network that
+is undirected, i.e., if person A is connected to B, B is connected to
+A, with unweighted links, i.e., each connection is of the same
+importance. Different algorithms have bee propoese to model social
+networks, e.g., the small-world model by Watts and Strogatz (1998) and
+the scale-free network model developed by Barabasi and Albert (1999),
+which is based on preferential attachment.</p>
+<p>In the Watts and Strogatz model all agents start with the same number
+of connections to their nearest neighbors (4 in the drawn
+example). The  small-world property is introduced by rewiring links
+randomly  in the circular layout (in the shown example with a
+propability of  p=0.2). That way the average path length (which is the
+average number of steps needed to connect any two nodes) is strongly
+reduced. The idea of six degree of separation (everybody knows every
+other human through 6 other people on average) is the empirical
+evidence for that model. However, this network model has an
+homogeneous node degree distribution.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/SmallWorld.png"><img alt="_images/SmallWorld.png" src="_images/SmallWorld.png" style="width: 345.6px; height: 345.6px;" /></a>
+<p class="caption">Example of a small world network.</p>
+</div>
+<p>The node-degree distribution of a scale-free network follows a
+power-law. This is a characteristic found in many networks including
+social networks. It means that most of the nodes are connected to very
+few nodes only. Some nodes however have a very high node degree, i.e.,
+in our case some agents are connected to a lot of other agents. It has
+been shown that these highly connected agents play an important role
+for diffusion processes on the network.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/ScaleFree.png"><img alt="_images/ScaleFree.png" src="_images/ScaleFree.png" style="width: 345.6px; height: 345.6px;" /></a>
+<p class="caption">Example of a scale free network.</p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/ScaleFree_NodeDegreeDistribution.png"><img alt="_images/ScaleFree_NodeDegreeDistribution.png" src="_images/ScaleFree_NodeDegreeDistribution.png" style="width: 460.8px; height: 354.4px;" /></a>
+<p class="caption">Node degree distribution for a scale free network.</p>
+</div>
+<p>Both models should not be viewed as fully realistic. However, both
+models capture different characteristics that determine the behavior
+of the process on the network. Thus the choice of the underlying
+network model influences the outcome of the agent based model.</p>
+<p>However, none of these models account for assortative
+mixing. Therefore a new model was developed. Our model applies biased
+preferential attachment and is based on the work by Ba abasi and Albert.</p>
+<p>The Barabasi Albert model starts with a seed network of few nodes. New
+nodes are added to the network one at a time whereas each new one is
+connected to m = 3 existing nodes with a probability that is
+proportional to the number  of links that the existing nodes already
+have. Hence new nodes have a preference to attach to heavily linked
+nodes. Because of this preference and because the model grows, it is
+called a preferential growth model. The Barabasi Albert model is one
+of several proposed models that generates scale-free networks, i.e.,
+its node-degree distribution follows a power law, and is widely used
+to generate random networks.</p>
+<p>To account for the bias of agents to connect to agents that have
+similar (or dissimilar) characteristics we include an additional
+bias. This is one important way in which social networks differ from
+other type of networks. Assortative mixing arises, e.g., in a
+population where males (mostly) couple with females (strong bias towards
+dissimilar agents). Another example is the bias of social connections
+of agents towards agents that share the same socioeconomic background,
+which is an important fact in our model.</p>
+<p>We implement assortative mixing by introducing an additional bias in
+the above described preferential attachment model. Each incoming new
+node is not only connected proportional to the number of links that
+the existing nodes already have, but also has a higher likelihood to
+connect to nodes/agents which share the same characteristics.</p>
+<p>In particular, before the new incoming node is added to the network,
+with a 5% chance we connect the new node proportional to the number
+of links that all existing nodes already have, i.e., the follow the Albert-Barabasi
+updating step described above. With a likelihood of 95% we let the new
+node connect only to nodes which present agents with the same
+drug usage behavior, again proportional to the number of links the existing
+nodes (with same ethnicity) already have.</p>
+<p>The probabilities are parameters of our
+model and can easily be changed and adjusted according to
+the model intentions. Our idea can easily be expanded to include more
+characteristics to account for in the attachment step. The resulting
+social random network is scale free and exhibits assortative mixing
+and is a therefore captures more charactersitics of real world social
+networks than the original Albert-Barabasi model, for example.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/AssortativeNetworkExample.png"><img alt="_images/AssortativeNetworkExample.png" src="_images/AssortativeNetworkExample.png" style="width: 480.0px; height: 480.0px;" /></a>
+<p class="caption">Example assortative graph. <em>ND</em> agents are represented by green
+nodes, <em>IDU</em> and <em>NIDU</em> agents with red and blue ones respectively.</p>
+</div>
+<p>If we change the likelihood with which incoming nodes attach to
+similar nodes to a smaller values, the resulting network is more
+homogeneously mixed.</p>
+</div>
+<div class="section" id="update-rules">
+<h2>Update rules<a class="headerlink" href="#update-rules" title="Permalink to this headline">¶</a></h2>
+<p>The individual behavior of an agent depends on its internal and
+external exposures and follows simple rules.</p>
+<p>Agents are connected with other agents through a static social
+network. At each time step, every agent meets one random agent s/he
+is connected to, i.e., each agent initiates an interaction.  Sweeping
+through all agents will cause some agents to meet twice within one
+time step and some agents will even make several contacts. The number
+of contacts within one time step is proportional to the agents number
+of connections.</p>
+<p>At each time step, we parse through the whole population and update
+the agents status according to predefined rules. First, ...</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="documentation.html" title="Documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Tutorial"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Lars Seemann.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
