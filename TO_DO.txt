@@ -1,5 +1,7 @@
 To do:
 
+Updated 07/29/2011
+
 - finish writing background
 - write unittest for remaining HIVModel subroutines
 - figures for different assortative mixing parameters (e.g. 80, 70, 60)
